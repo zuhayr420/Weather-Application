@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Meridian — Real-Time Weather</title>
+<meta name="description" content="Real-time weather, forecasts, air quality, radar and route planning. A static, backend-free dashboard built with vanilla JavaScript." />
+<meta name="theme-color" content="#2563eb" />
+<meta property="og:title" content="Meridian — Real-Time Weather" />
+<meta property="og:description" content="Live weather, hourly and 7-day forecasts, air quality, radar and route weather planning. No server, no API keys." />
+<meta property="og:type" content="website" />
+<meta name="twitter:card" content="summary_large_image" />
+<link rel="icon" href="icons/icon-192.png" type="image/png" />
+<link rel="apple-touch-icon" href="icons/icon-192.png" />
+<link rel="manifest" href="manifest.json" />
+
+<link rel="preconnect" href="https://api.open-meteo.com" />
+<link rel="preconnect" href="https://geocoding-api.open-meteo.com" />
+
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+<link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/regular/style.css" />
+<link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/fill/style.css" />
+
+<link rel="stylesheet" href="css/styles.css" />
+</head>
+<body data-theme="light">
+
+<noscript>
+  <p style="padding:16px;text-align:center;background:#fff3cd;color:#664d03;">
+    Meridian needs JavaScript: all weather data is fetched and rendered in your browser.
+  </p>
+</noscript>
+
+<div class="bg-overlay" id="bgOverlay" aria-hidden="true"></div>
+
+<header class="app-header">
+  <div class="brand">
+    <i class="ph-fill ph-compass" aria-hidden="true"></i>
+    <span>Meridian</span>
+  </div>
+
+  <div class="search-wrap">
+    <label class="sr-only" for="searchInput">Search for a city or place</label>
+    <i class="ph ph-magnifying-glass search-icon" aria-hidden="true"></i>
+    <input id="searchInput" type="text" autocomplete="off" placeholder="Search a city, town, or landmark…" aria-label="Search location" aria-expanded="false" aria-controls="searchResults" role="combobox" />
+    <button id="locateBtn" class="icon-btn" aria-label="Use my current location" title="Use my location">
+      <i class="ph ph-navigation-arrow" aria-hidden="true"></i>
+    </button>
+    <ul id="searchResults" class="search-results" role="listbox" hidden></ul>
+  </div>
+
+  <div class="header-actions">
+    <button id="unitToggle" class="pill-btn" aria-label="Toggle temperature units">°C</button>
+    <button id="themeToggle" class="icon-btn" aria-label="Toggle dark mode" title="Toggle theme">
+      <i class="ph ph-moon" aria-hidden="true"></i>
+    </button>
+  </div>
+</header>
+
+<nav id="favoritesBar" class="favorites-bar" aria-label="Favorite locations"></nav>
+
+<div id="statusBar" class="status-bar" hidden>
+  <span class="spinner" aria-hidden="true"></span>
+  <span id="statusText">Updating…</span>
+</div>
+
+<main class="layout">
+
+  <!-- Weather Narrative -->
+  <section class="card narrative-card" id="narrative-card">
+    <div class="narrative-inner">
+      <i class="ph-fill ph-sun-horizon narrative-icon"></i>
+      <p id="narrative-text" class="narrative-text">Search for a location to see your personalized weather summary.</p>
+    </div>
+  </section>
+
+  <!-- CURRENT WEATHER -->
+  <section class="card current-card" id="currentCard" aria-label="Current weather">
+    <div class="current-top">
+      <div>
+        <h1 id="locationName">—</h1>
+        <p id="locationDate" class="muted"></p>
+      </div>
+      <button id="favoriteBtn" class="icon-btn star-btn" aria-label="Save this location to favorites" aria-pressed="false">
+        <i class="ph ph-star" aria-hidden="true"></i>
+      </button>
+    </div>
+
+    <div class="current-main">
+      <i id="currentIcon" class="ph-fill ph-cloud current-icon" aria-hidden="true"></i>
+      <div class="current-temp-block">
+        <span id="currentTemp" class="current-temp">—°</span>
+        <span id="currentCondition" class="current-condition">Loading…</span>
+        <span id="feelsLike" class="muted">Feels like —°</span>
+      </div>
+    </div>
+
+    <div class="stat-grid" id="currentStats">
+      <div class="stat"><i class="ph ph-drop"></i><span class="stat-label">Humidity</span><span class="stat-value" id="statHumidity">—</span></div>
+      <div class="stat"><i class="ph ph-wind"></i><span class="stat-label">Wind</span><span class="stat-value" id="statWind">—</span></div>
+      <div class="stat"><i class="ph ph-gauge"></i><span class="stat-label">Pressure</span><span class="stat-value" id="statPressure">—</span></div>
+      <div class="stat"><i class="ph ph-cloud-fog"></i><span class="stat-label">Cloud cover</span><span class="stat-value" id="statClouds">—</span></div>
+      <div class="stat"><i class="ph ph-sun-horizon"></i><span class="stat-label">Sunrise</span><span class="stat-value" id="statSunrise">—</span></div>
+      <div class="stat"><i class="ph ph-sun-horizon" style="transform:scaleX(-1)"></i><span class="stat-label">Sunset</span><span class="stat-value" id="statSunset">—</span></div>
+    </div>
+
+    <div class="cw-extras">
+      <div class="cw-extra-item" id="wind-compass-container">
+        <!-- Wind compass renders here -->
+      </div>
+      <div class="cw-extra-item" id="pressure-trend-content">
+        <!-- Pressure trend renders here -->
+      </div>
+    </div>
+  </section>
+
+  <!-- HOURLY -->
+  <section class="card hourly-card" aria-label="Hourly forecast">
+    <h2 class="card-title">Next 24 hours</h2>
+    <div class="hourly-strip" id="hourlyStrip" tabindex="0"></div>
+  </section>
+
+  <!-- CHART -->
+  <section class="card chart-card" aria-label="Weather chart">
+    <div class="card-title-row">
+      <h2 class="card-title">Trends</h2>
+      <select id="chartMetric" class="select" aria-label="Choose chart metric">
+        <option value="temperature">Temperature</option>
+        <option value="precipitation">Precipitation</option>
+        <option value="wind">Wind speed</option>
+      </select>
+    </div>
+    <div class="chart-wrap"><canvas id="trendChart" height="220"></canvas></div>
+  </section>
+
+  <!-- Air Quality Index -->
+  <section class="card aqi-section" id="aqi-panel">
+    <h2><i class="ph ph-lungs"></i> Air Quality</h2>
+    <div id="aqi-content">
+      <p class="muted small">Search a location to load air quality data.</p>
+    </div>
+  </section>
+
+  <!-- Sun & Moon -->
+  <section class="card astro-section" id="astro-panel">
+    <h2><i class="ph ph-moon-stars"></i> Sun & Moon</h2>
+    <div id="astro-content">
+      <p class="muted small">Search a location to see astronomy data.</p>
+    </div>
+  </section>
+
+  <!-- DAILY -->
+  <section class="card daily-card" aria-label="7-day forecast">
+    <h2 class="card-title">7-day forecast</h2>
+    <ul class="daily-list" id="dailyList"></ul>
+  </section>
+
+  <!-- MAP -->
+  <section class="card map-card" aria-label="Live radar and map layers">
+    <div class="card-title-row">
+      <h2 class="card-title">Live radar &amp; map</h2>
+      <div class="layer-toggles" id="layerToggles" role="group" aria-label="Map layers">
+        <button class="chip active" data-layer="radar" aria-pressed="true">Radar</button>
+        <button class="chip" data-layer="satellite" aria-pressed="false">Satellite</button>
+        <button class="chip" data-layer="wind" aria-pressed="false">Wind</button>
+        <button class="chip" data-layer="temp" aria-pressed="false">Temperature</button>
+        <button class="chip" data-layer="clouds" aria-pressed="false">Clouds</button>
+      </div>
+    </div>
+    <div id="map" class="map"></div>
+  </section>
+
+  <!-- ROUTE PLANNER -->
+  <section class="card route-card" aria-label="Route weather planner">
+    <h2 class="card-title">Route weather planner</h2>
+    <form id="routeForm" class="route-form">
+      <div class="field">
+        <label for="routeFrom">Origin</label>
+        <input id="routeFrom" type="text" placeholder="Starting point" autocomplete="off" />
+      </div>
+      <div class="field">
+        <label for="routeTo">Destination</label>
+        <input id="routeTo" type="text" placeholder="Destination" autocomplete="off" />
+      </div>
+      <button type="submit" class="btn-primary" id="routeSubmit">Plan route</button>
+    </form>
+    <div id="routeResults" class="route-results" hidden>
+      <div id="routeMap" class="map map--small"></div>
+      <div id="routeSummary" class="route-summary"></div>
+      <div id="routeWaypoints" class="waypoint-grid"></div>
+    </div>
+  </section>
+
+  <!-- LIVE JOURNEY TRACKER -->
+  <section class="card journey-card" aria-label="Live journey tracker">
+    <div class="card-title-row">
+      <h2 class="card-title">Live journey tracker</h2>
+      <button id="journeyToggle" class="btn-secondary">Start tracking</button>
+    </div>
+    <div id="journeyBody" class="journey-body" hidden>
+      <div class="hud-grid">
+        <div class="hud-stat"><span class="hud-label">Speed</span><span id="hudSpeed" class="hud-value">0</span></div>
+        <div class="hud-stat"><span class="hud-label">Heading</span><span id="hudHeading" class="hud-value">—</span></div>
+        <div class="hud-stat"><span class="hud-label">Conditions</span><span id="hudConditions" class="hud-value">—</span></div>
+      </div>
+      <ul id="journeyLog" class="journey-log" aria-live="polite"></ul>
+    </div>
+  </section>
+
+  <!-- INTELLIGENCE DASHBOARD -->
+  <section class="card intel-dashboard" aria-label="Intelligence dashboard">
+    <button class="accordion-toggle intel-main-toggle" id="intelMainToggle" aria-expanded="true" aria-controls="intelBody">
+      <span><i class="ph-fill ph-brain"></i> Intelligence dashboard</span>
+      <i class="ph ph-caret-down caret" aria-hidden="true"></i>
+    </button>
+
+    <div id="intelBody" class="intel-body">
+
+      <div class="accordion" data-panel="recommend">
+        <button class="accordion-toggle" aria-expanded="true" aria-controls="panel-recommend">
+          <span>What should I do?</span><i class="ph ph-caret-down caret" aria-hidden="true"></i>
+        </button>
+        <div id="panel-recommend" class="accordion-panel">
+          <div class="reco-grid" id="recoGrid"></div>
+        </div>
+      </div>
+
+      <div class="accordion" data-panel="commute">
+        <button class="accordion-toggle" aria-expanded="false" aria-controls="panel-commute">
+          <span>Smart commute forecast</span><i class="ph ph-caret-down caret" aria-hidden="true"></i>
+        </button>
+        <div id="panel-commute" class="accordion-panel collapsed">
+          <form id="commuteForm" class="route-form commute-form">
+            <div class="field"><label for="commuteFrom">Origin</label><input id="commuteFrom" type="text" autocomplete="off" /></div>
+            <div class="field"><label for="commuteTo">Destination</label><input id="commuteTo" type="text" autocomplete="off" /></div>
+            <div class="field"><label for="commuteDepart">Depart</label><input id="commuteDepart" type="time" /></div>
+            <div class="field"><label for="commuteReturn">Return (optional)</label><input id="commuteReturn" type="time" /></div>
+            <button type="submit" class="btn-primary">Forecast commute</button>
+            <button type="button" id="commuteSave" class="btn-secondary">Save route</button>
+          </form>
+          <div id="savedRoutes" class="saved-routes"></div>
+          <div id="commuteResults" class="commute-results"></div>
+        </div>
+      </div>
+
+      <div class="accordion" data-panel="precip">
+        <button class="accordion-toggle" aria-expanded="false" aria-controls="panel-precip">
+          <span>Precipitation timeline</span><i class="ph ph-caret-down caret" aria-hidden="true"></i>
+        </button>
+        <div id="panel-precip" class="accordion-panel collapsed">
+          <div class="chart-wrap"><canvas id="precipChart" height="200"></canvas></div>
+          <p id="precipSummary" class="summary-text"></p>
+        </div>
+      </div>
+
+      <div class="accordion" data-panel="feels">
+        <button class="accordion-toggle" aria-expanded="false" aria-controls="panel-feels">
+          <span>Advanced feels-like intelligence</span><i class="ph ph-caret-down caret" aria-hidden="true"></i>
+        </button>
+        <div id="panel-feels" class="accordion-panel collapsed">
+          <div id="feelsBody" class="feels-body"></div>
+        </div>
+      </div>
+
+      <div class="accordion" data-panel="anomaly">
+        <button class="accordion-toggle" aria-expanded="false" aria-controls="panel-anomaly">
+          <span>Weather anomaly detection</span><i class="ph ph-caret-down caret" aria-hidden="true"></i>
+        </button>
+        <div id="panel-anomaly" class="accordion-panel collapsed">
+          <div id="anomalyBody" class="anomaly-body"></div>
+        </div>
+      </div>
+
+      <div class="accordion" data-panel="compare">
+        <button class="accordion-toggle" aria-expanded="false" aria-controls="panel-compare">
+          <span>Micro-weather comparison</span><i class="ph ph-caret-down caret" aria-hidden="true"></i>
+        </button>
+        <div id="panel-compare" class="accordion-panel collapsed">
+          <div class="compare-add">
+            <label class="sr-only" for="compareInput">Add a location to compare</label>
+            <input id="compareInput" type="text" placeholder="Add a location to compare (up to 4)" autocomplete="off" />
+            <ul id="compareResults" class="search-results" role="listbox" hidden></ul>
+          </div>
+          <div id="compareCards" class="compare-cards"></div>
+          <div id="compareTableWrap" class="compare-table-wrap"></div>
+          <p id="compareSummary" class="summary-text"></p>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+</main>
+
+<footer class="app-footer">
+  <p>
+    Weather, forecast and air quality by <a href="https://open-meteo.com" target="_blank" rel="noopener">Open‑Meteo</a> ·
+    Search and reverse geocoding by Open‑Meteo, BigDataCloud and OpenStreetMap ·
+    Radar <a href="https://www.rainviewer.com" target="_blank" rel="noopener">RainViewer</a> ·
+    Satellite Esri · Routes OSRM
+  </p>
+  <p class="muted small">A static app: no server, no API keys, no accounts. Everything runs in your browser.</p>
+</footer>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.2/dist/chart.umd.min.js"></script>
+
+<script src="js/weatherService.js"></script>
+<script src="js/theme.js"></script>
+<script src="js/favorites.js"></script>
+<script src="js/search.js"></script>
+<script src="js/app.js"></script>
+<script src="js/mapLayers.js"></script>
+<script src="js/route.js"></script>
+<script src="js/journey.js"></script>
+<script src="js/intelligence.js"></script>
+<script src="js/airQuality.js"></script>
+<script src="js/astronomy.js"></script>
+<script src="js/windCompass.js"></script>
+<script src="js/weatherNarrative.js"></script>
+<script src="js/pressureTrend.js"></script>
+<script src="js/weatherEffects.js"></script>
+<script>
+  // Service workers need http(s); opening index.html from disk still works.
+  if ("serviceWorker" in navigator && location.protocol.startsWith("http")) {
+    window.addEventListener("load", () => {
+      navigator.serviceWorker.register("sw.js").catch((err) => console.warn("SW registration failed", err));
+    });
+  }
+</script>
+</body>
+</html>

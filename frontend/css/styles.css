@@ -1,0 +1,1282 @@
+/* ==========================================================================
+   Meridian — Design Tokens: Elegant Soft Liquid Glass Aesthetic
+   Calm, Soothing Sky Blue & Pure White with Gentle Violet Whispers
+   ========================================================================== */
+:root {
+  /* Soft, Soothing Palette (Easy on the eyes, harmonious contrast) */
+  --bg: #f3f7fb;
+  --bg-gradient: radial-gradient(at 10% 10%, rgba(224, 238, 252, 0.7) 0px, transparent 55%),
+                 radial-gradient(at 88% 15%, rgba(238, 235, 252, 0.6) 0px, transparent 50%),
+                 radial-gradient(at 50% 85%, rgba(229, 241, 253, 0.6) 0px, transparent 55%),
+                 linear-gradient(145deg, #f0f6fc 0%, #f7faff 50%, #f6f3fc 100%);
+
+  /* Balanced Liquid Glass Surfaces - More Solid & Easy to Read */
+  --glass-bg: rgba(255, 255, 255, 0.78);
+  --glass-bg-subtle: rgba(255, 255, 255, 0.62);
+  --glass-bg-hover: rgba(255, 255, 255, 0.92);
+  --glass-inner: rgba(255, 255, 255, 0.94);
+
+  --bg-elevated: var(--glass-bg);
+
+  /* Delicate, Refined Borders & Specular Lines */
+  --border: rgba(255, 255, 255, 0.85);
+  --border-subtle: rgba(203, 219, 237, 0.45);
+  --border-focus: rgba(124, 92, 232, 0.45);
+
+  /* High Readability Typography */
+  --text: #1e293b;
+  --text-muted: #64748b;
+
+  /* Natural, Subdued Accents: Oceanic Sky Blue & Soft Lavender-Violet */
+  --accent: #2563eb;
+  --accent-purple: #7c5ce8;
+  --accent-gradient: linear-gradient(135deg, #2563eb 0%, #7c5ce8 100%);
+  --accent-contrast: #ffffff;
+
+  /* Status Colors */
+  --good: #059669;
+  --caution: #d97706;
+  --warning: #e11d48;
+
+  /* Smooth, Natural Shadows Without Glare */
+  --glass-blur: blur(8px);
+  --glass-blur-deep: blur(14px);
+  --shadow: 0 1px 3px 0 rgba(15, 23, 42, 0.05), 0 1px 2px -1px rgba(15, 23, 42, 0.05);
+  --shadow-hover: 0 4px 12px -2px rgba(15, 23, 42, 0.08), 0 2px 4px -2px rgba(15, 23, 42, 0.06);
+  --shadow-sm: 0 1px 2px 0 rgba(15, 23, 42, 0.04);
+
+  --radius-lg: 8px;
+  --radius-md: 6px;
+  --radius-sm: 4px;
+
+  /* Crisp, responsive micro-interactions */
+  --transition: 100ms cubic-bezier(0.16, 1, 0.3, 1);
+  --transition-fast: 60ms cubic-bezier(0.16, 1, 0.3, 1);
+
+  --font-body: "Times New Roman", Times, Georgia, serif;
+  --font-display: "Times New Roman", Times, Georgia, serif;
+
+  color-scheme: light;
+}
+
+[data-theme="dark"] {
+  /* Restful, Comfortable Night Sky */
+  --bg: #0b111e;
+  --bg-gradient: radial-gradient(at 15% 15%, rgba(30, 58, 138, 0.2) 0px, transparent 55%),
+                 radial-gradient(at 85% 20%, rgba(91, 33, 182, 0.22) 0px, transparent 50%),
+                 radial-gradient(at 50% 85%, rgba(15, 23, 42, 0.3) 0px, transparent 55%),
+                 linear-gradient(145deg, #090e18 0%, #0d1525 50%, #111428 100%);
+
+  --glass-bg: rgba(18, 27, 46, 0.82);
+  --glass-bg-subtle: rgba(23, 35, 59, 0.65);
+  --glass-bg-hover: rgba(28, 43, 72, 0.92);
+  --glass-inner: rgba(24, 37, 63, 0.96);
+
+  --bg-elevated: var(--glass-bg);
+
+  --border: rgba(255, 255, 255, 0.12);
+  --border-subtle: rgba(255, 255, 255, 0.07);
+  --border-focus: rgba(167, 139, 250, 0.5);
+
+  --text: #f1f5f9;
+  --text-muted: #94a3b8;
+
+  --accent: #60a5fa;
+  --accent-purple: #a78bfa;
+  --accent-gradient: linear-gradient(135deg, #60a5fa 0%, #a78bfa 100%);
+  --accent-contrast: #0f172a;
+
+  --shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.35), 0 1px 2px -1px rgba(0, 0, 0, 0.25);
+  --shadow-hover: 0 6px 16px -2px rgba(0, 0, 0, 0.45), 0 2px 6px -2px rgba(0, 0, 0, 0.35);
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.25);
+
+  color-scheme: dark;
+}
+
+/* ==========================================================================
+   Reset & Base with Gentle Ambient Light
+   ========================================================================== */
+* { box-sizing: border-box; }
+html, body {
+  height: 100%;
+}
+body {
+  margin: 0;
+  font-family: var(--font-body);
+  background: var(--bg);
+  background-image: var(--bg-gradient);
+  background-attachment: fixed;
+  background-size: cover;
+  color: var(--text);
+  font-weight: 400;
+  line-height: 1.5;
+  transition: background var(--transition), color var(--transition);
+  -webkit-font-smoothing: antialiased;
+  min-height: 100vh;
+  position: relative;
+}
+
+/* Very subtle background ambient hints without harsh animation */
+body::before,
+body::after {
+  content: "";
+  position: fixed;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: -2;
+  filter: blur(120px);
+  opacity: 0.12;
+}
+body::before {
+  width: 450px;
+  height: 450px;
+  top: -80px;
+  left: -60px;
+  background: radial-gradient(circle, rgba(186, 224, 253, 0.5) 0%, rgba(221, 214, 254, 0.25) 60%, transparent 80%);
+}
+body::after {
+  width: 480px;
+  height: 480px;
+  bottom: -100px;
+  right: -80px;
+  background: radial-gradient(circle, rgba(233, 213, 255, 0.25) 0%, rgba(191, 219, 254, 0.4) 60%, transparent 80%);
+}
+
+/* Exclusive Times New Roman typography enforcement across all components */
+html, body, button, input, select, textarea, table, th, td,
+h1, h2, h3, h4, h5, h6,
+.brand, .card-title, .current-temp, .current-condition,
+.stat-value, .stat-label, .hour-item, .hour-time, .hour-temp, .hour-precip,
+.daily-list, .day-name, .day-desc, .day-temps,
+.chip, .badge, .pill-btn, .fav-chip,
+.search-results, .result-name, .result-meta, .result-badge,
+.reco-card, .reco-title, .reco-text,
+.hud-value, .hud-label, .az,
+.aq-number, .aq-category, .aq-pollutant,
+.narrative-text, .compass-speed, .compass-caption, .pt-label, .pt-delta, .pt-outlook,
+svg text, .leaflet-container {
+  font-family: var(--font-body);
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-display);
+  margin: 0;
+  letter-spacing: 0;
+  font-weight: 700;
+}
+p { margin: 0; }
+button, input, select, textarea { font-family: inherit; color: inherit; }
+button { cursor: pointer; }
+a { color: var(--accent); text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+[hidden] { display: none !important; }
+
+::selection {
+  background: rgba(37, 99, 235, 0.2);
+  color: var(--text);
+}
+
+*:focus-visible {
+  outline: 2px solid var(--border-focus);
+  outline-offset: 2px;
+  border-radius: var(--radius-sm);
+}
+
+.sr-only {
+  position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+  overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0;
+}
+
+.muted { color: var(--text-muted); font-size: 0.9rem; }
+
+/* Subtle Scrollbars */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb {
+  background: rgba(148, 163, 184, 0.3);
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(100, 116, 139, 0.5);
+}
+
+/* ==========================================================================
+   Background Overlay & Full-screen Atmospheric Effects
+   ========================================================================== */
+.bg-overlay {
+  position: fixed; inset: 0; z-index: -2; pointer-events: none;
+  opacity: 0.75;
+  transition: background 150ms ease, opacity 150ms ease;
+}
+
+#weatherEffectsCanvas {
+  position: fixed; inset: 0; z-index: -1; pointer-events: none;
+}
+
+/* Base Condition Tones */
+.bg-overlay.cond-clear {
+  background: radial-gradient(circle at 75% 0%, rgba(254, 240, 138, 0.4), rgba(186, 230, 253, 0.3) 45%, transparent 75%);
+}
+.bg-overlay.cond-rain {
+  background: radial-gradient(circle at 75% 0%, rgba(125, 170, 215, 0.5), rgba(148, 163, 184, 0.35) 50%, transparent 80%);
+}
+.bg-overlay.cond-snow {
+  background: radial-gradient(circle at 75% 0%, rgba(186, 214, 240, 0.4), rgba(147, 197, 253, 0.25) 50%, transparent 80%);
+}
+.bg-overlay.cond-storm {
+  background: radial-gradient(circle at 75% 0%, rgba(88, 28, 135, 0.45), rgba(30, 58, 138, 0.4) 50%, transparent 80%);
+}
+.bg-overlay.cond-fog {
+  background: radial-gradient(circle at 75% 0%, rgba(203, 213, 225, 0.65), transparent 70%);
+}
+
+/* ==========================================================================
+   Weather & Temperature Reactive Environments
+   ========================================================================== */
+/* 1. Hot & Scorching / Dry Sun */
+body.temp-hot, body.temp-scorching {
+  --bg: #faf6ed;
+  --bg-gradient: radial-gradient(at 12% 8%, rgba(254, 243, 199, 0.75) 0px, transparent 55%),
+                 radial-gradient(at 85% 15%, rgba(254, 215, 170, 0.65) 0px, transparent 50%),
+                 radial-gradient(at 50% 85%, rgba(254, 249, 195, 0.5) 0px, transparent 55%),
+                 linear-gradient(145deg, #fbf7ee 0%, #fffbf0 50%, #fef3c7 100%);
+  --accent: #b45309;
+  --text: #1c1917;
+  --text-muted: #57534e;
+}
+body.temp-hot .card, body.temp-scorching .card {
+  border-color: rgba(245, 158, 11, 0.35);
+  box-shadow: 0 8px 24px -4px rgba(217, 119, 6, 0.08),
+              0 2px 8px -1px rgba(245, 158, 11, 0.06),
+              inset 0 1px 1px 0 rgba(255, 255, 255, 0.95);
+}
+body.temp-scorching .current-temp {
+  color: #9a3412;
+}
+
+/* 2. Raining / Storming Wet Glass */
+body.weather-rain, body.weather-storm {
+  --bg: #edf3f8;
+  --bg-gradient: radial-gradient(at 10% 10%, rgba(186, 215, 243, 0.6) 0px, transparent 55%),
+                 radial-gradient(at 88% 18%, rgba(203, 213, 225, 0.55) 0px, transparent 50%),
+                 linear-gradient(145deg, #e7eff7 0%, #f0f4f9 50%, #e2ecf5 100%);
+  --accent: #0369a1;
+  --text: #0f172a;
+  --text-muted: #475569;
+}
+body.weather-rain .card, body.weather-storm .card {
+  background: rgba(245, 250, 255, 0.82);
+  border-color: rgba(186, 230, 253, 0.7);
+  box-shadow: 0 8px 24px -4px rgba(2, 132, 199, 0.09),
+              0 2px 8px -1px rgba(56, 189, 248, 0.06),
+              inset 0 1px 2px 0 rgba(255, 255, 255, 0.95);
+}
+body.weather-storm {
+  --text: #0f172a;
+  --text-muted: #334155;
+}
+body.weather-storm .card {
+  border-color: rgba(167, 139, 250, 0.5);
+  box-shadow: 0 8px 26px -4px rgba(109, 40, 217, 0.12),
+              0 2px 8px -1px rgba(139, 92, 246, 0.08),
+              inset 0 1px 2px 0 rgba(255, 255, 255, 0.95);
+}
+
+/* 3. Snow & Freezing Ice Glass (e.g. Gurudongmar & Alpine Regions) */
+body.weather-snow, body.temp-freezing {
+  --bg: #c8d8ea;
+  --bg-gradient: radial-gradient(at 12% 10%, rgba(147, 185, 220, 0.7) 0px, transparent 55%),
+                 radial-gradient(at 85% 15%, rgba(165, 185, 225, 0.65) 0px, transparent 50%),
+                 radial-gradient(at 50% 85%, rgba(135, 170, 210, 0.6) 0px, transparent 55%),
+                 linear-gradient(145deg, #c4d5e8 0%, #d2e2f2 50%, #bcd0e6 100%);
+  --accent: #1e40af;
+  --accent-purple: #4338ca;
+  --accent-contrast: #ffffff;
+  --text: #050d1a;
+  --text-muted: #1e293b;
+}
+
+body.weather-snow .card, body.temp-freezing .card {
+  background: rgba(255, 255, 255, 0.96) !important;
+  border: 1px solid rgba(100, 116, 139, 0.4) !important;
+  box-shadow: 0 12px 36px -4px rgba(15, 23, 42, 0.18),
+              0 2px 8px -1px rgba(30, 58, 138, 0.12) !important;
+}
+
+body.weather-snow .card *,
+body.temp-freezing .card * {
+  text-shadow: none !important;
+}
+
+body.weather-snow .card-title,
+body.temp-freezing .card-title,
+body.weather-snow #locationName,
+body.temp-freezing #locationName,
+body.weather-snow .current-temp,
+body.temp-freezing .current-temp,
+body.weather-snow .current-condition,
+body.temp-freezing .current-condition,
+body.weather-snow .day-temps .hi,
+body.temp-freezing .day-temps .hi,
+body.weather-snow .stat-value,
+body.temp-freezing .stat-value,
+body.weather-snow .hour-temp,
+body.temp-freezing .hour-temp,
+body.weather-snow .day-name,
+body.temp-freezing .day-name,
+body.weather-snow .reco-title,
+body.temp-freezing .reco-title,
+body.weather-snow h1,
+body.temp-freezing h1,
+body.weather-snow h2,
+body.temp-freezing h2,
+body.weather-snow h3,
+body.temp-freezing h3 {
+  color: #030712 !important;
+  font-weight: 800 !important;
+}
+
+body.weather-snow .muted,
+body.temp-freezing .muted,
+body.weather-snow .stat-label,
+body.temp-freezing .stat-label,
+body.weather-snow .day-desc,
+body.temp-freezing .day-desc,
+body.weather-snow .hour-time,
+body.temp-freezing .hour-time,
+body.weather-snow .day-temps .lo,
+body.temp-freezing .day-temps .lo,
+body.weather-snow .narrative-text,
+body.temp-freezing .narrative-text,
+body.weather-snow .reco-text,
+body.temp-freezing .reco-text {
+  color: #1f2937 !important;
+  font-weight: 600 !important;
+}
+
+body.weather-snow .stat,
+body.temp-freezing .stat,
+body.weather-snow .hour-item,
+body.temp-freezing .hour-item,
+body.weather-snow .daily-list li,
+body.temp-freezing .daily-list li,
+body.weather-snow .reco-card,
+body.temp-freezing .reco-card,
+body.weather-snow .hud-stat,
+body.temp-freezing .hud-stat {
+  background: #f1f5f9 !important;
+  border: 1px solid #cbd5e1 !important;
+}
+
+body.weather-snow .narrative-card,
+body.temp-freezing .narrative-card {
+  background: #ffffff !important;
+  border: 1px solid #94a3b8 !important;
+}
+
+/* 4. Foggy / Overcast Muted Glass */
+body.weather-fog, body.weather-cloudy {
+  --bg: #f1f5f9;
+  --bg-gradient: radial-gradient(at 10% 10%, rgba(226, 232, 240, 0.7) 0px, transparent 55%),
+                 linear-gradient(145deg, #f0f4f8 0%, #f5f7fa 50%, #eceff4 100%);
+  --text: #0f172a;
+  --text-muted: #475569;
+}
+body.weather-fog .card {
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+}
+
+/* 5. Dark Mode Overrides — Always High-Contrast Crisp Whites & Silvers */
+[data-theme="dark"].temp-hot, [data-theme="dark"].temp-scorching {
+  --bg: #1c1408;
+  --text: #fef3c7;
+  --text-muted: #fde68a;
+  --accent: #f59e0b;
+}
+[data-theme="dark"].weather-rain, [data-theme="dark"].weather-storm {
+  --bg: #091322;
+  --text: #f0f9ff;
+  --text-muted: #93c5fd;
+  --accent: #38bdf8;
+}
+[data-theme="dark"].weather-snow, [data-theme="dark"].temp-freezing {
+  --bg: #0c1626;
+  --text: #ffffff;
+  --text-muted: #bfdbfe;
+  --accent: #60a5fa;
+}
+
+/* ==========================================================================
+   Header — Soft Liquid Glass Bar
+   ========================================================================== */
+.app-header {
+  display: flex; align-items: center; gap: 16px;
+  padding: 12px 28px;
+  background: var(--glass-bg);
+  backdrop-filter: var(--glass-blur-deep);
+  -webkit-backdrop-filter: var(--glass-blur-deep);
+  border-bottom: 1px solid var(--border-subtle);
+  box-shadow: var(--shadow-sm);
+  position: sticky; top: 0; z-index: 40;
+  transition: background var(--transition), border-color var(--transition);
+}
+
+.brand {
+  display: flex; align-items: center; gap: 8px;
+  font-family: var(--font-display); font-weight: 700; font-size: 1.15rem;
+  flex-shrink: 0;
+  color: var(--text);
+}
+.brand i {
+  color: var(--accent);
+  font-size: 1.45rem;
+}
+
+.search-wrap {
+  position: relative; flex: 1; max-width: 540px;
+  display: flex; align-items: center;
+}
+.search-icon {
+  position: absolute; left: 16px;
+  color: var(--accent);
+  pointer-events: none;
+  font-size: 1.1rem;
+  z-index: 2;
+}
+
+#searchInput {
+  width: 100%;
+  padding: 10px 42px 10px 42px;
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  background: var(--glass-bg-subtle);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  color: var(--text);
+  font-size: 0.94rem;
+  font-weight: 500;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
+  transition: all var(--transition-fast);
+}
+#searchInput:focus {
+  outline: none;
+  border-color: var(--accent);
+  background: var(--glass-bg-hover);
+  box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.15);
+}
+
+#locateBtn {
+  position: absolute; right: 6px;
+  width: 30px; height: 30px;
+}
+
+/* Autocomplete Floating Glass Panel — Google Maps Style */
+.search-results {
+  position: absolute; top: calc(100% + 6px); left: 0; right: 0;
+  background: var(--glass-inner);
+  backdrop-filter: var(--glass-blur-deep);
+  -webkit-backdrop-filter: var(--glass-blur-deep);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  box-shadow: 0 8px 24px -4px rgba(0, 0, 0, 0.12), 0 2px 6px rgba(0, 0, 0, 0.04);
+  list-style: none; margin: 0; padding: 4px;
+  max-height: 360px; overflow-y: auto; z-index: 50;
+}
+
+.search-results li {
+  padding: 9px 12px;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: background var(--transition-fast);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.04);
+}
+.search-results li:last-child {
+  border-bottom: none;
+}
+.search-results li:hover, .search-results li.active {
+  background: rgba(37, 99, 235, 0.08);
+}
+
+.result-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+}
+.result-icon-box {
+  width: 30px;
+  height: 30px;
+  border-radius: var(--radius-sm);
+  background: rgba(37, 99, 235, 0.08);
+  color: var(--accent);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1rem;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+.result-text-col {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+  flex: 1;
+}
+.result-title-line {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+.search-results .result-name {
+  font-weight: 700;
+  font-size: 0.94rem;
+  color: var(--text);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.result-badge {
+  font-size: 0.68rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  padding: 2px 6px;
+  border-radius: 3px;
+  background: rgba(100, 116, 139, 0.12);
+  color: var(--text-muted);
+  flex-shrink: 0;
+}
+.search-results .result-meta {
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  line-height: 1.35;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.header-actions { display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
+
+/* Buttons with Clean Enterprise Styling */
+.icon-btn {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 34px; height: 34px; border-radius: var(--radius-sm);
+  border: 1px solid var(--border-subtle);
+  background: var(--glass-bg-subtle);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  box-shadow: var(--shadow-sm);
+  color: var(--text-muted);
+  font-size: 1rem;
+  transition: background var(--transition), color var(--transition), border-color var(--transition);
+}
+.icon-btn:hover {
+  background: var(--glass-bg-hover);
+  color: var(--text);
+  border-color: rgba(37, 99, 235, 0.3);
+}
+.icon-btn:active {
+  background: var(--glass-bg-subtle);
+}
+
+.star-btn.active {
+  border-color: rgba(245, 158, 11, 0.4);
+  background: rgba(254, 243, 199, 0.6);
+}
+.star-btn.active i {
+  color: #f59e0b;
+}
+
+.pill-btn {
+  padding: 6px 14px; border-radius: var(--radius-sm);
+  border: 1px solid var(--border-subtle);
+  background: var(--glass-bg-subtle);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  box-shadow: var(--shadow-sm);
+  font-weight: 600; font-size: 0.85rem;
+  color: var(--text);
+  transition: all var(--transition);
+}
+.pill-btn:hover {
+  background: var(--glass-bg-hover);
+  color: var(--accent);
+  border-color: rgba(37, 99, 235, 0.3);
+}
+
+/* ==========================================================================
+   Favorites Bar
+   ========================================================================== */
+.favorites-bar {
+  display: flex; gap: 8px; padding: 8px 28px; overflow-x: auto;
+  background: var(--glass-bg-subtle);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  border-bottom: 1px solid var(--border-subtle);
+}
+.favorites-bar:empty { display: none; }
+
+.fav-chip {
+  display: flex; align-items: center; gap: 6px; white-space: nowrap;
+  padding: 5px 10px; border-radius: var(--radius-sm);
+  border: 1px solid var(--border-subtle);
+  background: var(--glass-bg);
+  box-shadow: var(--shadow-sm);
+  font-size: 0.84rem; font-weight: 500;
+  color: var(--text);
+  transition: all var(--transition);
+}
+.fav-chip:hover {
+  background: var(--glass-bg-hover);
+  border-color: rgba(37, 99, 235, 0.3);
+}
+.fav-chip.active {
+  border-color: var(--accent);
+  background: rgba(37, 99, 235, 0.1);
+  color: var(--accent);
+  font-weight: 600;
+}
+.fav-chip button {
+  background: none; border: none; padding: 0;
+  color: var(--text-muted); font-size: 0.85rem; display: flex;
+}
+.fav-chip button:hover {
+  color: var(--warning);
+}
+
+/* ==========================================================================
+   Status Bar
+   ========================================================================== */
+.status-bar {
+  display: flex; align-items: center; gap: 8px; justify-content: center;
+  padding: 7px; font-size: 0.8rem; color: var(--text-muted);
+  background: var(--glass-bg-subtle);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  border-bottom: 1px solid var(--border-subtle);
+}
+.spinner {
+  width: 13px; height: 13px; border-radius: 50%;
+  border: 2px solid rgba(148, 163, 184, 0.35);
+  border-top-color: var(--accent);
+  animation: spin 0.8s linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* ==========================================================================
+   Layout Grid
+   ========================================================================== */
+.layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1.12fr) minmax(0, 1fr);
+  grid-template-areas:
+    "narrative narrative"
+    "current   hourly"
+    "current   chart"
+    "aqi       astro"
+    "daily     map"
+    "route     journey"
+    "intel     intel";
+  gap: 20px;
+  padding: 20px 28px 60px;
+  max-width: 1280px;
+  margin: 0 auto;
+}
+.layout > section { min-width: 0; }
+.narrative-card { grid-area: narrative; }
+.chart-wrap, .chart-wrap canvas { max-width: 100%; }
+.current-card { grid-area: current; }
+.aqi-section { grid-area: aqi; }
+.astro-section { grid-area: astro; }
+.hourly-card { grid-area: hourly; }
+.chart-card { grid-area: chart; }
+.daily-card { grid-area: daily; }
+.map-card { grid-area: map; }
+.route-card { grid-area: route; }
+.journey-card { grid-area: journey; }
+.intel-dashboard { grid-area: intel; }
+
+@media (max-width: 960px) {
+  .layout {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-areas:
+      "narrative" "current" "hourly" "chart" "aqi" "astro" "daily" "map" "route" "journey" "intel";
+    padding: 16px 16px 48px;
+    gap: 16px;
+  }
+  .app-header { flex-wrap: wrap; padding: 12px 16px; }
+  .search-wrap { order: 3; flex: 1 0 100%; max-width: none; }
+}
+
+/* ==========================================================================
+   Liquid Glass Cards — Refined, Restful & Legible
+   ========================================================================== */
+.card {
+  position: relative;
+  background: var(--glass-bg);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow);
+  padding: 22px;
+  transition: border-color var(--transition), box-shadow var(--transition), background var(--transition);
+}
+
+.card:hover {
+  background: var(--glass-bg-hover);
+  border-color: rgba(37, 99, 235, 0.25);
+  box-shadow: var(--shadow-hover);
+}
+
+[data-theme="dark"] .card:hover {
+  border-color: rgba(96, 165, 250, 0.25);
+}
+
+.card-title {
+  font-size: 1.05rem; font-weight: 700; margin-bottom: 14px;
+  color: var(--text);
+  letter-spacing: 0;
+}
+.card-title-row {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-bottom: 14px; gap: 12px; flex-wrap: wrap;
+}
+.card-title-row .card-title { margin-bottom: 0; }
+
+.select {
+  padding: 6px 10px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border-subtle);
+  background: var(--glass-bg-subtle);
+  font-size: 0.84rem;
+  font-weight: 500;
+  color: var(--text);
+  transition: all var(--transition);
+}
+.select:focus {
+  outline: none;
+  border-color: var(--border-focus);
+}
+
+/* ==========================================================================
+   Current Weather Card
+   ========================================================================== */
+.current-top { display: flex; justify-content: space-between; align-items: flex-start; }
+#locationName {
+  font-size: 1.55rem; font-weight: 700;
+  letter-spacing: 0;
+}
+.current-main {
+  display: flex; align-items: center; gap: 18px; margin: 18px 0;
+}
+.current-icon {
+  font-size: 4.4rem;
+  color: var(--accent);
+}
+.current-temp-block { display: flex; flex-direction: column; gap: 2px; }
+.current-temp {
+  font-family: var(--font-display); font-size: 3.2rem; font-weight: 700;
+  line-height: 1; letter-spacing: 0;
+  color: var(--text);
+}
+.current-condition { font-weight: 600; font-size: 1.05rem; }
+
+.stat-grid {
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px;
+  padding-top: 16px; border-top: 1px solid var(--border-subtle);
+}
+.stat {
+  display: flex; flex-direction: column; gap: 3px; font-size: 0.85rem;
+  padding: 10px 12px;
+  border-radius: var(--radius-sm);
+  background: var(--glass-bg-subtle);
+  border: 1px solid var(--border-subtle);
+  transition: border-color var(--transition);
+}
+.stat:hover {
+  border-color: rgba(37, 99, 235, 0.2);
+}
+.stat i {
+  color: var(--accent);
+  font-size: 1.15rem; align-self: flex-start;
+}
+.stat-label { color: var(--text-muted); font-size: 0.74rem; font-weight: 500; }
+.stat-value { font-weight: 700; color: var(--text); }
+
+/* ==========================================================================
+   Hourly Strip
+   ========================================================================== */
+.hourly-strip {
+  display: flex; gap: 10px; overflow-x: auto;
+  padding: 2px 2px 8px;
+}
+.hour-item {
+  flex: 0 0 auto; display: flex; flex-direction: column; align-items: center; gap: 6px;
+  padding: 12px 14px; border-radius: var(--radius-sm);
+  background: var(--glass-bg-subtle);
+  border: 1px solid var(--border-subtle);
+  box-shadow: var(--shadow-sm);
+  min-width: 70px; text-align: center;
+  transition: all var(--transition);
+}
+.hour-item:hover {
+  background: var(--glass-bg-hover);
+  border-color: rgba(37, 99, 235, 0.25);
+}
+.hour-item .hour-time { font-size: 0.76rem; font-weight: 500; color: var(--text-muted); }
+.hour-item i {
+  font-size: 1.4rem;
+  color: var(--accent);
+}
+.hour-item .hour-temp { font-weight: 700; font-size: 0.92rem; }
+.hour-item .hour-precip {
+  font-size: 0.72rem; color: var(--accent-purple); font-weight: 600;
+}
+
+/* ==========================================================================
+   Daily Forecast List
+   ========================================================================== */
+.daily-list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 4px; }
+.daily-list li {
+  display: grid; grid-template-columns: 90px 32px 1fr auto; align-items: center; gap: 12px;
+  padding: 10px 12px;
+  border-radius: var(--radius-sm);
+  background: var(--glass-bg-subtle);
+  border: 1px solid var(--border-subtle);
+  transition: all var(--transition);
+}
+.daily-list li:hover {
+  background: var(--glass-bg-hover);
+  border-color: rgba(37, 99, 235, 0.25);
+}
+.day-name { font-weight: 600; font-size: 0.9rem; }
+.daily-list i {
+  font-size: 1.3rem; color: var(--accent);
+}
+.day-desc { font-size: 0.84rem; color: var(--text-muted); }
+.day-temps { font-size: 0.9rem; font-variant-numeric: tabular-nums; white-space: nowrap; }
+.day-temps .hi { font-weight: 700; color: var(--text); }
+.day-temps .lo { color: var(--text-muted); margin-left: 6px; }
+
+/* ==========================================================================
+   Chart Glass Wrapper
+   ========================================================================== */
+.chart-wrap { position: relative; width: 100%; }
+
+/* ==========================================================================
+   Interactive Map
+   ========================================================================== */
+.map {
+  width: 100%; height: 340px; border-radius: var(--radius-md);
+  overflow: hidden; z-index: 0;
+  border: 1px solid var(--border-subtle);
+}
+.map--small { height: 260px; margin-bottom: 14px; }
+.layer-toggles { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 12px; }
+.chip {
+  padding: 5px 12px; border-radius: var(--radius-sm);
+  border: 1px solid var(--border-subtle);
+  background: var(--glass-bg-subtle);
+  font-size: 0.8rem; font-weight: 600;
+  color: var(--text);
+  box-shadow: var(--shadow-sm);
+  transition: all var(--transition);
+}
+.chip:hover {
+  background: var(--glass-bg-hover);
+  border-color: rgba(37, 99, 235, 0.25);
+}
+.chip.active {
+  background: var(--accent);
+  color: #ffffff;
+  border-color: var(--accent);
+}
+
+/* ==========================================================================
+   Forms & Buttons (Route & Journey)
+   ========================================================================== */
+.route-form { display: flex; flex-wrap: wrap; gap: 12px; align-items: flex-end; }
+.field { display: flex; flex-direction: column; gap: 5px; flex: 1 1 160px; }
+.field label { font-size: 0.78rem; font-weight: 600; color: var(--text-muted); }
+.field input {
+  padding: 9px 12px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border-subtle);
+  background: var(--glass-bg-subtle);
+  color: var(--text);
+  transition: all var(--transition);
+}
+.field input:focus {
+  outline: none;
+  border-color: var(--border-focus);
+  background: var(--glass-bg-hover);
+}
+
+.btn-primary, .btn-secondary {
+  padding: 9px 18px; border-radius: var(--radius-sm);
+  font-weight: 600; font-size: 0.88rem;
+  border: 1px solid transparent;
+  transition: all var(--transition);
+  box-shadow: var(--shadow-sm);
+}
+.btn-primary {
+  background: var(--accent);
+  color: #ffffff;
+}
+.btn-primary:hover {
+  background: #1d4ed8;
+  border-color: #1e40af;
+}
+.btn-secondary {
+  background: var(--glass-bg-subtle);
+  border: 1px solid var(--border-subtle);
+  color: var(--text);
+}
+.btn-secondary:hover {
+  background: var(--glass-bg-hover);
+  border-color: rgba(37, 99, 235, 0.25);
+}
+
+.route-results { margin-top: 18px; }
+.route-summary { display: flex; gap: 20px; flex-wrap: wrap; margin-bottom: 14px; font-size: 0.9rem; }
+.route-summary strong { display: block; font-size: 1.05rem; }
+.waypoint-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 10px; }
+.waypoint-card {
+  padding: 12px; border-radius: var(--radius-sm);
+  background: var(--glass-bg-subtle);
+  border: 1px solid var(--border-subtle);
+  box-shadow: var(--shadow-sm);
+  font-size: 0.83rem; display: flex; flex-direction: column; gap: 4px;
+}
+.verdict {
+  display: inline-flex; align-items: center; gap: 4px;
+  font-weight: 700; font-size: 0.75rem; border-radius: 3px;
+  padding: 2px 8px; width: fit-content;
+}
+  padding: 2px 8px; width: fit-content;
+}
+.verdict.safe { background: rgba(5, 150, 105, 0.14); color: var(--good); }
+.verdict.moderate { background: rgba(217, 119, 6, 0.14); color: var(--caution); }
+.verdict.dangerous { background: rgba(225, 29, 72, 0.14); color: var(--warning); }
+
+/* ==========================================================================
+   Journey Tracker
+   ========================================================================== */
+.hud-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 14px; }
+.hud-stat {
+  padding: 12px; border-radius: var(--radius-md);
+  background: var(--glass-bg-subtle);
+  border: 1px solid var(--border-subtle);
+  text-align: center;
+}
+.hud-label { display: block; font-size: 0.74rem; color: var(--text-muted); margin-bottom: 4px; font-weight: 500; }
+.hud-value { font-family: var(--font-display); font-size: 1.4rem; font-weight: 700; color: var(--text); }
+.journey-log { list-style: none; margin: 0; padding: 0; max-height: 180px; overflow-y: auto; display: flex; flex-direction: column; gap: 6px; }
+.journey-log li {
+  font-size: 0.82rem; padding: 8px 10px; border-radius: var(--radius-sm);
+  background: var(--glass-bg-subtle);
+  border: 1px solid var(--border-subtle);
+}
+
+/* ==========================================================================
+   Intelligence Dashboard / Accordions
+   ========================================================================== */
+.intel-main-toggle {
+  width: 100%; display: flex; align-items: center; justify-content: space-between;
+  background: none; border: none; padding: 0 0 16px; font-family: var(--font-display);
+  font-size: 1.15rem; font-weight: 700; color: var(--text);
+}
+.accordion { border-top: 1px solid var(--border-subtle); }
+.accordion:first-child { border-top: none; }
+.accordion-toggle {
+  width: 100%; display: flex; align-items: center; justify-content: space-between;
+  background: none; border: none; padding: 14px 2px; font-size: 0.98rem; font-weight: 600; color: var(--text);
+}
+.caret { transition: transform var(--transition); color: var(--text-muted); font-size: 1rem; }
+.accordion-toggle[aria-expanded="false"] .caret,
+.intel-main-toggle[aria-expanded="false"] .caret { transform: rotate(-90deg); }
+
+.accordion-panel {
+  overflow: hidden; max-height: 2000px;
+  transition: max-height var(--transition), opacity var(--transition), padding var(--transition);
+  padding-bottom: 18px; opacity: 1;
+}
+.accordion-panel.collapsed { max-height: 0; padding-bottom: 0; opacity: 0; }
+#intelBody { overflow: hidden; max-height: 6000px; transition: max-height var(--transition); }
+#intelBody.collapsed { max-height: 0; }
+
+.reco-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 10px; }
+.reco-card {
+  padding: 14px; border-radius: var(--radius-sm);
+  background: var(--glass-bg-subtle);
+  border: 1px solid var(--border-subtle);
+  box-shadow: var(--shadow-sm);
+  transition: border-color var(--transition);
+}
+.reco-card:hover {
+  border-color: rgba(37, 99, 235, 0.25);
+}
+.reco-card .reco-title {
+  display: flex; align-items: center; gap: 8px;
+  font-weight: 600; font-size: 0.88rem; margin-bottom: 6px;
+}
+.reco-card .reco-title i { font-size: 1.15rem; color: var(--accent-purple); }
+.reco-card .reco-text { font-size: 0.82rem; color: var(--text-muted); line-height: 1.5; }
+
+.commute-form { margin-bottom: 12px; }
+.saved-routes { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 14px; }
+.commute-slot {
+  display: grid; grid-template-columns: 70px 28px 1fr auto; align-items: center; gap: 10px;
+  padding: 9px 4px; border-bottom: 1px solid var(--border-subtle); font-size: 0.86rem;
+}
+.commute-slot i { font-size: 1.15rem; color: var(--accent); }
+
+.summary-text { font-size: 0.88rem; color: var(--text-muted); margin-top: 10px; line-height: 1.6; }
+
+.feels-body, .anomaly-body { display: flex; flex-direction: column; gap: 14px; }
+.feels-hero { display: flex; align-items: center; gap: 18px; flex-wrap: wrap; }
+.feels-delta {
+  font-family: var(--font-display); font-size: 2.2rem; font-weight: 700;
+  color: var(--text);
+}
+.factor-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 10px; }
+.factor {
+  padding: 10px 12px; border-radius: var(--radius-sm);
+  background: var(--glass-bg-subtle);
+  border: 1px solid var(--border-subtle);
+  font-size: 0.82rem;
+}
+.factor .factor-label { color: var(--text-muted); display: block; font-size: 0.72rem; }
+.factor .factor-value { font-weight: 600; font-size: 0.9rem; margin-top: 2px; }
+
+.anomaly-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 10px; }
+.anomaly-item {
+  padding: 12px; border-radius: var(--radius-sm);
+  background: var(--glass-bg-subtle);
+  border: 1px solid var(--border-subtle);
+  box-shadow: var(--shadow-sm);
+  text-align: center;
+}
+.anomaly-item .az { font-family: var(--font-display); font-size: 1.4rem; font-weight: 700; }
+.badge { display: inline-block; font-size: 0.72rem; font-weight: 700; padding: 2px 8px; border-radius: 3px; margin-top: 5px; }
+.badge.above { background: rgba(225, 29, 72, 0.14); color: var(--warning); }
+.badge.below { background: rgba(37, 99, 235, 0.14); color: var(--accent); }
+.badge.normal { background: rgba(5, 150, 105, 0.14); color: var(--good); }
+
+.compare-add { position: relative; margin-bottom: 14px; }
+.compare-add input {
+  width: 100%; padding: 9px 12px; border-radius: var(--radius-sm);
+  border: 1px solid var(--border-subtle);
+  background: var(--glass-bg-subtle);
+}
+.compare-cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 10px; margin-bottom: 14px; }
+.compare-card {
+  padding: 14px; border-radius: var(--radius-sm);
+  background: var(--glass-bg-subtle);
+  border: 1px solid var(--border-subtle);
+  box-shadow: var(--shadow-sm);
+  position: relative;
+}
+.compare-card .remove-compare { position: absolute; top: 8px; right: 8px; background: none; border: none; color: var(--text-muted); }
+.compare-card i { font-size: 1.6rem; color: var(--accent-purple); }
+.compare-card .cc-name { font-weight: 600; font-size: 0.9rem; margin: 6px 0 2px; }
+.compare-card .cc-temp { font-size: 1.3rem; font-weight: 700; font-family: var(--font-display); }
+
+.compare-table-wrap { overflow-x: auto; }
+table.compare-table { width: 100%; border-collapse: collapse; font-size: 0.85rem; min-width: 480px; }
+table.compare-table th, table.compare-table td { padding: 8px 10px; text-align: left; border-bottom: 1px solid var(--border-subtle); white-space: nowrap; }
+table.compare-table th { color: var(--text-muted); font-weight: 600; font-size: 0.76rem; text-transform: uppercase; letter-spacing: 0.03em; }
+
+/* ==========================================================================
+   Footer
+   ========================================================================= */
+.app-footer {
+  text-align: center; padding: 20px;
+  color: var(--text-muted); font-size: 0.78rem;
+  border-top: 1px solid var(--border-subtle);
+  margin-top: 32px;
+}
+
+/* Leaflet Dark/Light Enhancements */
+[data-theme="dark"] .leaflet-tile-pane { filter: brightness(0.85) contrast(1.05); }
+.leaflet-container {
+  background: #e2e8f0 !important;
+}
+.leaflet-control-attribution {
+  background: rgba(255, 255, 255, 0.75) !important;
+  color: var(--text-muted) !important;
+  border-radius: var(--radius-sm);
+}
+[data-theme="dark"] .leaflet-control-attribution {
+  background: rgba(15, 23, 42, 0.8) !important;
+  color: #94a3b8 !important;
+}
+
+/* ==========================================================================
+   Narrative, Air Quality, Sun & Moon (Soft Harmony)
+   ========================================================================== */
+.narrative-card {
+  padding: 16px 22px;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.85) 0%, rgba(245, 243, 255, 0.75) 100%);
+}
+[data-theme="dark"] .narrative-card {
+  background: linear-gradient(135deg, rgba(20, 30, 50, 0.85) 0%, rgba(35, 25, 60, 0.7) 100%);
+}
+.narrative-inner { display: flex; align-items: flex-start; gap: 12px; }
+.narrative-icon {
+  font-size: 1.45rem;
+  color: var(--accent-purple);
+  flex-shrink: 0; margin-top: 2px;
+}
+.narrative-text {
+  font-size: 0.95rem; line-height: 1.6; color: var(--text);
+  font-weight: 500;
+}
+
+.cw-extras {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 16px;
+  margin-top: 16px; padding-top: 16px; border-top: 1px solid var(--border-subtle);
+}
+.cw-extra-item { min-width: 0; }
+@media (max-width: 520px) { .cw-extras { grid-template-columns: 1fr; } }
+
+.aqi-section h2, .astro-section h2 {
+  display: flex; align-items: center; gap: 8px;
+  font-size: 1rem; font-weight: 600; margin-bottom: 14px;
+}
+.aqi-section h2 i, .astro-section h2 i {
+  color: var(--accent-purple);
+}
+
+.aq-hero { display: flex; align-items: center; gap: 12px; margin-bottom: 12px; }
+.aq-number {
+  min-width: 52px; height: 52px; padding: 0 10px; border-radius: var(--radius-sm);
+  display: flex; align-items: center; justify-content: center;
+  color: #fff; font-family: var(--font-display); font-size: 1.35rem; font-weight: 700;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+.aq-category { font-weight: 600; font-size: 1rem; line-height: 1.3; }
+.aq-track {
+  height: 6px; border-radius: 3px;
+  background: rgba(0, 0, 0, 0.05);
+  overflow: hidden; margin-bottom: 14px;
+}
+[data-theme="dark"] .aq-track {
+  background: rgba(255, 255, 255, 0.1);
+}
+.aq-fill { height: 100%; border-radius: 3px; transition: width var(--transition); }
+.aq-pollutants {
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(108px, 1fr));
+  gap: 8px; margin-bottom: 10px;
+}
+.aq-pollutant {
+  display: flex; justify-content: space-between; gap: 8px; font-size: 0.78rem;
+  padding: 7px 9px; border-radius: var(--radius-sm);
+  background: var(--glass-bg-subtle);
+  border: 1px solid var(--border-subtle);
+}
+.aq-pollutant span:last-child { color: var(--text-muted); font-variant-numeric: tabular-nums; font-weight: 600; }
+
+.astro-sun { margin-bottom: 6px; }
+.sun-note { text-align: center; font-size: 0.75rem; color: var(--text-muted); margin-top: 3px; font-weight: 500; }
+.sun-arc-svg { display: block; width: 100%; max-width: 300px; height: auto; margin: 0 auto; }
+.astro-row {
+  display: flex; justify-content: space-between; gap: 10px;
+  font-size: 0.85rem; padding: 7px 0; border-bottom: 1px dashed var(--border-subtle);
+}
+.astro-moon {
+  display: flex; align-items: center; gap: 12px; padding: 12px;
+  border-radius: var(--radius-md);
+  background: var(--glass-bg-subtle);
+  border: 1px solid var(--border-subtle);
+  margin: 14px 0;
+}
+.astro-moon-emoji { font-size: 1.8rem; line-height: 1; }
+.astro-hours { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.astro-hour {
+  display: flex; flex-direction: column; gap: 2px; font-size: 0.82rem;
+  padding: 9px 11px; border-radius: var(--radius-sm);
+  background: var(--glass-bg-subtle);
+  border: 1px solid var(--border-subtle);
+  border-left: 3px solid var(--accent);
+}
+.astro-hour--gold { border-left-color: #f59e0b; }
+.astro-hour--blue { border-left-color: #6366f1; }
+
+/* ==========================================================================
+   Wind Compass & Pressure Tendency
+   ========================================================================== */
+.compass { display: flex; flex-direction: column; align-items: center; gap: 10px; }
+.compass-ring {
+  position: relative; width: 118px; height: 118px; border-radius: 50%;
+  border: 2px solid var(--border-subtle);
+  background: var(--glass-bg-subtle);
+}
+.compass-point {
+  position: absolute; font-size: 0.62rem; font-weight: 700; color: var(--text-muted);
+}
+.compass-n { top: 4px; left: 50%; transform: translateX(-50%); color: var(--accent-purple); }
+.compass-s { bottom: 4px; left: 50%; transform: translateX(-50%); }
+.compass-e { right: 6px; top: 50%; transform: translateY(-50%); }
+.compass-w { left: 6px; top: 50%; transform: translateY(-50%); }
+.compass-needle {
+  position: absolute; top: 14px; left: 50%; width: 2px; height: 45px;
+  background: var(--accent-gradient);
+  border-radius: 2px;
+  transform-origin: bottom center;
+  transition: transform 120ms cubic-bezier(0, 0, 0.2, 1);
+}
+.compass-needle::after {
+  content: ""; position: absolute; top: -5px; left: 50%; transform: translateX(-50%);
+  border-left: 5px solid transparent; border-right: 5px solid transparent;
+  border-bottom: 8px solid var(--accent-purple);
+}
+.compass-hub {
+  position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+  width: 52px; height: 52px; border-radius: 50%;
+  background: var(--glass-inner);
+  border: 1px solid var(--border-subtle);
+  box-shadow: var(--shadow-sm);
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+}
+.compass-speed { font-family: var(--font-display); font-weight: 700; font-size: 0.95rem; line-height: 1; color: var(--text); }
+.compass-unit { font-size: 0.58rem; color: var(--text-muted); }
+.compass-caption { font-size: 0.8rem; color: var(--text-muted); text-align: center; }
+.compass-caption strong { color: var(--text); }
+
+.pt-row { display: flex; align-items: center; gap: 12px; }
+.pt-arrow { width: 38px; text-align: center; font-size: 1.7rem; font-weight: 700; line-height: 1; }
+.pt-up { color: var(--good); }
+.pt-down { color: var(--warning); }
+.pt-steady { color: var(--text-muted); }
+.pt-label { font-weight: 600; font-size: 0.92rem; }
+.pt-delta { font-size: 0.78rem; color: var(--text-muted); }
+.pt-outlook { margin-top: 8px; font-size: 0.82rem; font-style: italic; color: var(--text-muted); line-height: 1.5; }
+
+.map-note {
+  background: var(--glass-inner);
+  color: var(--text); padding: 8px 10px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border-subtle);
+  box-shadow: var(--shadow-sm);
+  max-width: 220px; font-size: 0.72rem; line-height: 1.45;
+}
+
+.status-bar--error { color: var(--caution); }
+.status-bar--error .spinner { display: none; }
+
+.map-legend {
+  background: var(--glass-inner);
+  color: var(--text);
+  padding: 8px 10px; border-radius: var(--radius-sm);
+  border: 1px solid var(--border-subtle);
+  box-shadow: var(--shadow-sm);
+  font-size: 0.7rem; min-width: 132px;
+}
+.map-legend-title { font-weight: 600; margin-bottom: 5px; }
+.map-legend-bar { height: 6px; border-radius: 3px; margin-bottom: 3px; }
+.map-legend-range { display: flex; justify-content: space-between; color: var(--text-muted); font-variant-numeric: tabular-nums; }
