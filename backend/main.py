@@ -81,6 +81,17 @@ async def _get_json(url: str, params: dict[str, Any], cache_key: str) -> Any:
 # ---------------------------------------------------------------------------
 # API routes — all under /api/* so they never collide with static files
 # ---------------------------------------------------------------------------
+@app.get("/api/health")
+async def health_check():
+    """Health and status endpoint for monitoring and uptime probes."""
+    return {
+        "status": "healthy",
+        "service": APP_NAME,
+        "version": "1.0.0",
+        "timestamp": time.time(),
+    }
+
+
 def _score_geocode_result(item: dict[str, Any], query: str) -> int:
     import re
     q_lower = query.lower().strip()

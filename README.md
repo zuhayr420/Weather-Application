@@ -1,5 +1,8 @@
 # Meridian — Real-Time Weather Application
 
+[![CI](https://github.com/zuhayr420/Weather-Application/actions/workflows/ci.yml/badge.svg)](https://github.com/zuhayr420/Weather-Application/actions/workflows/ci.yml)
+[![CodeQL](https://github.com/zuhayr420/Weather-Application/actions/workflows/codeql.yml/badge.svg)](https://github.com/zuhayr420/Weather-Application/actions/workflows/codeql.yml)
+[![Release](https://img.shields.io/badge/Release-v1.0.0-blue.svg)](CHANGELOG.md)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 [![Python: 3.10+](https://img.shields.io/badge/Python-3.10%2B-brightgreen.svg)](https://www.python.org/)
 [![FastAPI](https://img.shields.io/badge/Backend-FastAPI-009688.svg)](https://fastapi.tiangolo.com/)
@@ -178,6 +181,16 @@ All weather, mapping, and geocoding services used in Meridian are powered by fre
 - **Radar Imagery**: [RainViewer](https://www.rainviewer.com/) Radar API.
 - **Routing Geometry**: [OSRM](http://project-osrm.org/) (Open Source Routing Machine).
 - **Reverse Geocoding**: [BigDataCloud](https://www.bigdatacloud.com/) Client Geocoding API.
+
+---
+
+## Community & Contributing
+
+We welcome contributions! Please review our guidelines before submitting pull requests:
+- [Contributing Guide](CONTRIBUTING.md)
+- [Code of Conduct](CODE_OF_CONDUCT.md)
+- [Security Policy](SECURITY.md)
+- [Changelog](CHANGELOG.md)
 
 ---
 
