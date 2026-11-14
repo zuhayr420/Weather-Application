@@ -134,7 +134,6 @@ python -m http.server 8000
 meridian-weather/
 ├── backend/
 │   ├── main.py              # FastAPI server & Deep Hybrid Geocoding Engine
-│   ├── Procfile             # Deployment Procfile
 │   └── requirements.txt     # Python backend dependencies
 ├── frontend/
 │   ├── index.html           # Core single-page application structure
@@ -162,8 +161,7 @@ meridian-weather/
 │   ├── dark_mode.png        # High-contrast night slate preview
 │   ├── search_autocomplete.png # Hybrid deep geocoding search demonstration
 │   └── preview.png          # Synoptic overview preview
-├── main.py                  # Root entrypoint for Cloud PaaS (Railway / Render)
-├── railway.toml             # Railway deployment specification
+├── main.py                  # Root application entrypoint
 ├── requirements.txt         # Root Python requirements
 ├── .gitignore               # Comprehensive Git ignore rules
 ├── LICENSE                  # MIT License
